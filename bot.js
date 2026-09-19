@@ -1,7 +1,7 @@
 const { Telegraf, Markup } = require('telegraf');
 const https = require('https');
 
-const TOKEN = '8267121306:AAEwOhZ46w5wxm0NjAxD1Jo1KGlulNvwMsE';
+const TOKEN = '8267121306:AAFRmpGvmYaTXEOdmzDN31yzgzquyaZ7suE';
 const GIGACHAT_AUTH = 'MDFhMGJhNGEtMmI1ZC03MjlkLTkyNmMtNDNjNWQ3NmE0YzI5OjQxYmZiNGIxLWUyNmUtNGRjNS04OGRmLTlmNTAwNzA2MDRjYQ==';
 const FIREBASE_URL = 'https://denploy-default-rtdb.europe-west1.firebasedatabase.app';
 
@@ -152,7 +152,19 @@ bot.on('text', async (ctx) => {
   }
 });
 
-bot.launch().then(() => console.log('🤖 Denploy Helper Bot запущен'));
+// Стартуем с очисткой старых сессий
+async function start() {
+  try {
+    // Удаляем вебхуки и старые апдейты
+    await bot.telegram.deleteWebhook({ drop_pending_updates: true });
+    console.log('✅ Webhook cleared');
+  } catch (e) {
+    console.log('Webhook clear warning:', e.message);
+  }
+  bot.launch().then(() => console.log('🤖 Denploy Helper Bot запущен'));
+}
+
+start();
 
 process.once('SIGINT', () => bot.stop('SIGINT'));
 process.once('SIGTERM', () => bot.stop('SIGTERM'));
