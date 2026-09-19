@@ -1,5 +1,6 @@
 const { Telegraf, Markup } = require('telegraf');
 const https = require('https');
+const http = require('http');
 
 const TOKEN = '8267121306:AAFRmpGvmYaTXEOdmzDN31yzgzquyaZ7suE';
 const GIGACHAT_AUTH = 'MDFhMGJhNGEtMmI1ZC03MjlkLTkyNmMtNDNjNWQ3NmE0YzI5OjQxYmZiNGIxLWUyNmUtNGRjNS04OGRmLTlmNTAwNzA2MDRjYQ==';
@@ -152,10 +153,17 @@ bot.on('text', async (ctx) => {
   }
 });
 
-// Стартуем с очисткой старых сессий
+// HTTP-сервер для Render (чтобы он видел открытый порт и не убивал бота)
+const PORT = process.env.PORT || 3000;
+http.createServer((req, res) => {
+  res.writeHead(200, { 'Content-Type': 'text/plain; charset=utf-8' });
+  res.end('🤖 Denploy Helper Bot is running');
+}).listen(PORT, () => {
+  console.log('🌐 HTTP server listening on port ' + PORT);
+});
+
 async function start() {
   try {
-    // Удаляем вебхуки и старые апдейты
     await bot.telegram.deleteWebhook({ drop_pending_updates: true });
     console.log('✅ Webhook cleared');
   } catch (e) {
