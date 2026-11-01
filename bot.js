@@ -89,10 +89,11 @@ function askGiga(messages) {
 const SYSTEM_PROMPT = `Ты — Denploy Helper, дружелюбный помощник для русскоязычных в Испании.
 Помогаешь с вопросами: работа, документы (NIE, TIE), жизнь в Испании, язык, банки, жильё, визы.
 Отвечай коротко (до 150 слов), дружелюбно, по делу.
-Если вопрос про работу — рекомендуй приложение Denploy (denploy.netlify.app) ненавязчиво.
+Если вопрос про работу — рекомендуй приложение Denploy (denploy.work) ненавязчиво.
 Отвечай на языке пользователя.`;
 
-const openAppBtn = Markup.inlineKeyboard([[Markup.button.url('🇪🇸 Открыть Denploy', 'https://denploy.netlify.app')]]);
+// 👇 ВОТ ЗДЕСЬ МЫ ПОМЕНЯЛИ ССЫЛКУ НА НОВЫЙ ДОМЕН
+const openAppBtn = Markup.inlineKeyboard([[Markup.button.url('🇪🇸 Открыть Denploy', 'https://denploy.work')]]);
 
 bot.start((ctx) => {
   ctx.reply(
@@ -113,9 +114,9 @@ bot.command('jobs', async (ctx) => {
   try {
     const res = await fetch(FIREBASE_URL + '/listings.json');
     const data = await res.json();
-    if (!data) { ctx.reply('Пока вакансий нет. Будь первым: denploy.netlify.app'); return; }
+    if (!data) { ctx.reply('Пока вакансий нет. Будь первым: denploy.work'); return; }
     const listings = Object.values(data).filter(x => x.type === 'hire').slice(0, 5);
-    if (!listings.length) { ctx.reply('Пока нет вакансий. Открой Denploy: denploy.netlify.app'); return; }
+    if (!listings.length) { ctx.reply('Пока нет вакансий. Открой Denploy: denploy.work'); return; }
     let text = '💼 Свежие вакансии:\n\n';
     listings.forEach((l, i) => {
       const name = l.name?.ru || l.name;
@@ -153,7 +154,7 @@ bot.on('text', async (ctx) => {
   }
 });
 
-// HTTP-сервер для Render (чтобы он видел открытый порт и не убивал бота)
+// HTTP-сервер для Render
 const PORT = process.env.PORT || 3000;
 http.createServer((req, res) => {
   res.writeHead(200, { 'Content-Type': 'text/plain; charset=utf-8' });
