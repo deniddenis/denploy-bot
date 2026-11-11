@@ -2,7 +2,7 @@ const { Telegraf, Markup } = require('telegraf');
 const https = require('https');
 const http = require('http');
 
-const TOKEN = '8267121306:AAHFiUY2WLnM4BZbN6dwEeXPqjV_yNJ0WdA';
+const TOKEN = '9069433225:AAEDCtiEIcOUdn31it-DmW7pvZefvsh4BVI';
 const GIGACHAT_AUTH = 'MDFhMGJhNGEtMmI1ZC03MjlkLTkyNmMtNDNjNWQ3NmE0YzI5OjQxYmZiNGIxLWUyNmUtNGRjNS04OGRmLTlmNTAwNzA2MDRjYQ==';
 const FIREBASE_URL = 'https://denploy-default-rtdb.europe-west1.firebasedatabase.app';
 
